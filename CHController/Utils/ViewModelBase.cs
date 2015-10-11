@@ -6,16 +6,16 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CHController.ViewModels
+namespace CHController.Utils
 {
 	/// <summary>
-	/// Abstract base class for ViewModels which already implements
+	/// Abstract base class for view models which already implements
 	/// the INotifyPropertyChanged interface.
 	/// </summary>
-	public abstract class ViewModelBase : INotifyPropertyChanged
+	internal abstract class ViewModelBase : INotifyPropertyChanged
 	{
 		/// <summary>
-		/// Event to be raised whenever a data-bound property changes.
+		/// Raised whenever a data-bound property changes.
 		/// </summary>
 		public event PropertyChangedEventHandler PropertyChanged;
 
