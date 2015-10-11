@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace CHController.Properties
+namespace GUI.Properties
 {
 
 

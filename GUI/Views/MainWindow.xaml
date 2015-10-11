@@ -1,12 +1,12 @@
-﻿<Window x:Class="CHController.Views.MainWindow"
+﻿<Window x:Class="GUI.Views.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:CHController.Views"
+        xmlns:local="clr-namespace:GUI.Views"
         mc:Ignorable="d"
         Title="MainWindow" Height="150" Width="200">
-	<Grid Margin="0">
-		<Button Command="{Binding AutoFireCmd}">AutoFire</Button>
+	<Grid>
+		<Button Command="{Binding AutoFireCmd}">Turn on AutoFire</Button>
 	</Grid>
 </Window>

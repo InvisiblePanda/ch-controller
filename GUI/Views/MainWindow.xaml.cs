@@ -1,5 +1,4 @@
-﻿using CHController.ViewModels;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,17 +13,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace CHController.Views
+namespace GUI.Views
 {
 	/// <summary>
 	/// Interaction logic for MainWindow.xaml
 	/// </summary>
 	public partial class MainWindow : Window
 	{
-		public MainWindow(MainViewModel vm)
+		public MainWindow()
 		{
 			InitializeComponent();
-			DataContext = vm;
 		}
 	}
 }
