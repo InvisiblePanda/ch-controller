@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -16,6 +17,9 @@ namespace CHController.ViewModels
 
 		private const string ClickerHeroesWindowTitle = "Clicker Heroes";
 		private readonly IntPtr clickerHeroesHandle;
+		private CancellationTokenSource cts;
+
+		private bool isAutoFiring = false;
 
 		public MainViewModel()
 		{
@@ -24,7 +28,23 @@ namespace CHController.ViewModels
 
 		public ICommand AutoFireCmd
 		{
-			get { return new RelayCommand(_ => ClickOnWindow(100, 200)); }
+			get
+			{
+				return new RelayCommand(async _ =>
+				{
+					if (isAutoFiring)
+					{
+						isAutoFiring = false;
+						cts.Cancel();
+					}
+					else
+					{
+						isAutoFiring = true;
+						cts = new CancellationTokenSource();
+						await AutoFire(cts.Token);
+					}
+				});
+			}
 		}
 
 		[DllImport("user32.dll", EntryPoint = "PostMessageA", SetLastError = true)]
@@ -38,6 +58,25 @@ namespace CHController.ViewModels
 			IntPtr coordinates = (IntPtr)((y << 16) | x);
 			PostMessage(clickerHeroesHandle, WM_LBUTTONDOWN, (IntPtr)1, coordinates);
 			PostMessage(clickerHeroesHandle, WM_LBUTTONUP, (IntPtr)1, coordinates);
+		}
+
+		private async Task AutoFire(CancellationToken token)
+		{
+			while (!token.IsCancellationRequested)
+			{
+				ClickOnWindow(700, 500);
+				ClickOnWindow(700, 500);
+				ClickOnWindow(700, 500);
+				ClickOnWindow(700, 500);
+				ClickOnWindow(700, 500);
+				try
+				{
+					await Task.Delay(110, token);
+				}
+				catch (TaskCanceledException)
+				{
+				}
+			}
 		}
 	}
 }
