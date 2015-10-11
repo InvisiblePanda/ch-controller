@@ -12,7 +12,7 @@ namespace CHController.Utils
 	/// Abstract base class for view models which already implements
 	/// the INotifyPropertyChanged interface.
 	/// </summary>
-	internal abstract class ViewModelBase : INotifyPropertyChanged
+	public abstract class ViewModelBase : INotifyPropertyChanged
 	{
 		/// <summary>
 		/// Raised whenever a data-bound property changes.

@@ -7,6 +7,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using CHController.Views;
+using CHController.ViewModels;
+using Ninject.Parameters;
 
 namespace CHController
 {
@@ -15,12 +17,13 @@ namespace CHController
 	/// </summary>
 	public partial class App : Application
 	{
-		IKernel ninjectKernel;
+		private IKernel ninjectKernel;
 
 		protected override void OnStartup(StartupEventArgs e)
 		{
 			ninjectKernel = new StandardKernel();
 
+			//var mainVm = ninjectKernel.Get<MainViewModel>();
 			var mainWindow = ninjectKernel.Get<MainWindow>();
 			mainWindow.Show();
 
