@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:GUI.Views"
         mc:Ignorable="d"
         Title="MainWindow" Height="150" Width="200">
-	<Grid>
+	<StackPanel>
 		<Button Command="{Binding AutoFireCmd}">Turn on AutoFire</Button>
-	</Grid>
+		<Button Command="{Binding GetPixelColorCmd}">Test</Button>
+	</StackPanel>
 </Window>

@@ -1,5 +1,8 @@
 ﻿namespace ClickerHeroesControl
 {
+	/// <summary>
+	/// Static container for WinAPI-related constants.
+	/// </summary>
 	public static class WinApiConstants
 	{
 		public const uint WM_LBUTTONDOWN = 0x201;
