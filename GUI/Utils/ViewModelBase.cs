@@ -6,7 +6,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CHController.Utils
+namespace GUI.Utils
 {
 	/// <summary>
 	/// Abstract base class for view models which already implements

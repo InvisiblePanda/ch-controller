@@ -1,4 +1,4 @@
-﻿using CHController.ViewModels;
+﻿using GUI.ViewModels;
 using GUI.Views;
 using System;
 using System.Collections.Generic;

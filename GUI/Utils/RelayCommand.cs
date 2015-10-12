@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace CHController.Utils
+namespace GUI.Utils
 {
 	/// <summary>
 	/// Used to bind actions to the view from inside the view model.

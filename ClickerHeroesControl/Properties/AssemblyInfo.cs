@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("CHController")]
+[assembly: AssemblyTitle("ClickerHeroesControl")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("CHController")]
+[assembly: AssemblyProduct("ClickerHeroesControl")]
 [assembly: AssemblyCopyright("Copyright ©  2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("622dcf3b-690f-4f1a-ade2-ffe7f0bef11c")]
+[assembly: Guid("e324c395-ce95-41b3-a27b-a9749364737e")]
 
 // Version information for an assembly consists of the following four values:
 //

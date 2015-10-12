@@ -1,4 +1,4 @@
-﻿namespace CHController
+﻿namespace ClickerHeroesControl
 {
 	public static class WinApiConstants
 	{
