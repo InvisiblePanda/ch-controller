@@ -11,13 +11,6 @@ namespace ClickerHeroesControl
 	{
 		private const string ClickerHeroesWindowTitle = "Clicker Heroes";
 
-		private static readonly IntPtr fishOutOfFieldPosition = GetPosition(515, 490);
-		private static readonly IntPtr fish1Position = GetPosition(740, 400);
-		private static readonly IntPtr fish2Position = GetPosition(750, 350);
-		private static readonly IntPtr fish3Position = GetPosition(865, 480);
-		private static readonly IntPtr fish4Position = GetPosition(1050, 410);
-		private static readonly IntPtr fish5Position = GetPosition(1005, 453);
-
 		private readonly IntPtr targetHandle = IntPtr.Zero;
 
 		public CHController()
@@ -58,11 +51,11 @@ namespace ClickerHeroesControl
 		{
 			while (!ct.IsCancellationRequested)
 			{
-				TargetClick(fish1Position);
-				TargetClick(fish2Position);
-				TargetClick(fish3Position);
-				TargetClick(fish4Position);
-				TargetClick(fish5Position);
+				TargetClick(ClickerHeroesPositions.Fish1);
+				TargetClick(ClickerHeroesPositions.Fish2);
+				TargetClick(ClickerHeroesPositions.Fish3);
+				TargetClick(ClickerHeroesPositions.Fish4);
+				TargetClick(ClickerHeroesPositions.Fish5);
 
 				try
 				{
@@ -102,11 +95,6 @@ namespace ClickerHeroesControl
 
 				return pixel.GetPixel(0, 0);
 			}
-		}
-
-		private static IntPtr GetPosition(uint x, uint y)
-		{
-			return (IntPtr)((y << 16) | x);
 		}
 
 		#endregion

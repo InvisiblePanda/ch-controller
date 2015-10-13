@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CHController.cs" />
+    <Compile Include="ClickerHeroesPositions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TargetWindowNotFoundException.cs" />
     <Compile Include="WinApiConstants.cs" />
