@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -11,39 +12,44 @@ using System.Windows.Input;
 
 namespace GUI.ViewModels
 {
-	public class MainViewModel : ViewModelBase
-	{
-		private ClickerHeroesControl.CHController controller;
+    public class MainViewModel : ViewModelBase
+    {
+        private ClickerHeroesControl.CHController controller;
 
-		private const string ClickerHeroesWindowTitle = "Clicker Heroes";
-		private CancellationTokenSource cts;
+        private const string ClickerHeroesWindowTitle = "Clicker Heroes";
+        private CancellationTokenSource cts;
 
-		private bool isAutoFiring = false;
+        private bool isAutoFiring = false;
 
-		public MainViewModel()
-		{
-			controller = new ClickerHeroesControl.CHController();
-		}
+        public MainViewModel()
+        {
+            controller = new ClickerHeroesControl.CHController();
+        }
 
-		public ICommand AutoFireCmd
-		{
-			get
-			{
-				return new RelayCommand(async _ =>
-				{
-					if (isAutoFiring)
-					{
-						isAutoFiring = false;
-						cts.Cancel();
-					}
-					else
-					{
-						isAutoFiring = true;
-						cts = new CancellationTokenSource();
-						await controller.AutoFire(cts.Token);
-					}
-				});
-			}
-		}
-	}
+        public ICommand AutoFireCmd
+        {
+            get
+            {
+                return new RelayCommand(async _ =>
+                {
+                    if (isAutoFiring)
+                    {
+                        isAutoFiring = false;
+                        cts.Cancel();
+                    }
+                    else
+                    {
+                        isAutoFiring = true;
+                        cts = new CancellationTokenSource();
+                        await controller.AutoFire(cts.Token);
+                    }
+                });
+            }
+        }
+
+        public ICommand CheckForFishCmd
+        {
+            get { return new RelayCommand(_ => controller.FindClickable()); }
+        }
+    }
 }

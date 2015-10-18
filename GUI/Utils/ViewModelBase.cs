@@ -51,6 +51,24 @@ namespace GUI.Utils
 		}
 
 		/// <summary>
+		/// Sets the value of a property and raises the PropertyChanged event
+		/// if the value actually changed.
+		/// </summary>
+		/// <typeparam name="T">The return type of the property</typeparam>
+		/// <param name="backingField">The backing field of the property</param>
+		/// <param name="newValue">The new value</param>
+		/// <param name="propertyName">The name of the property</param>
+		protected void Set<T>(ref T backingField, T newValue, string propertyName)
+		{
+			bool valueHasChanged = !EqualityComparer<T>.Default.Equals(backingField, newValue);
+			if (valueHasChanged)
+			{
+				backingField = newValue;
+				OnPropertyChanged(propertyName);
+			}
+		}
+
+		/// <summary>
 		/// Extracts the property name from a member expression.
 		/// </summary>
 		/// <typeparam name="T">The return type of the property</typeparam>
