@@ -34,6 +34,20 @@ namespace ClickerHeroesControl
             topOffset = topLeft.Y - chRect.Top;
         }
 
+        public Rectangle CHClientRectangle
+        {
+            get
+            {
+                WinApi.RECT clientRect;
+                WinApi.GetClientRect(targetHandle, out clientRect);
+                WinApi.RECT windowRect;
+                WinApi.GetWindowRect(targetHandle, out windowRect);
+
+                Rectangle rect = new Rectangle(windowRect.X + leftOffset, windowRect.Y + topOffset, clientRect.Width, clientRect.Height);
+                return rect;
+            }
+        }
+
         public async Task AutoFire(CancellationToken ct)
         {
             while (!ct.IsCancellationRequested)
@@ -67,21 +81,25 @@ namespace ClickerHeroesControl
             WinApi.PostMessage(targetHandle, WinApiConstants.WM_KEYUP, (IntPtr)keyCode, IntPtr.Zero);
         }
 
-        public bool FindClickable()
+        public Point? FindClickable()
         {
             List<Point> clickablePositions = new List<Point>
             {
                 new Point(753, 425),
                 new Point(766, 373),
                 new Point(1011, 446),
-                new Point(531, 481)
+                new Point(531, 481),
+                new Point(1059, 436),
+                new Point(879, 505)
             };
             List<Color> clickableColors = new List<Color>
             {
                 Color.FromArgb(0xda, 0x4a, 0x00),
                 Color.FromArgb(0xd9, 0x41, 0x03),
                 Color.FromArgb(0xdc, 0x46, 0x08),
-                Color.FromArgb(0xdc, 0x43, 0x02)
+                Color.FromArgb(0xdc, 0x43, 0x02),
+                Color.FromArgb(0xd3, 0x3d, 0x01),
+                Color.FromArgb(0xc8, 0x4b, 0x16)
             };
 
             using (Bitmap bmp = TakeScreenshot())
@@ -97,12 +115,12 @@ namespace ClickerHeroesControl
                         int y = p.Y - topOffset;
                         IntPtr pos = (IntPtr)((y << 16) | x);
                         TargetClick(pos);
-                        return true;
+                        return new Point(x, y);
                     }
                 }
             }
 
-            return false;
+            return null;
         }
 
         private Bitmap TakeScreenshot()
