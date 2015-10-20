@@ -6,9 +6,14 @@
         xmlns:local="clr-namespace:GUI.Views"
         mc:Ignorable="d"
         Title="MainWindow" Height="202" Width="200">
-    <StackPanel>
-        <Button Command="{Binding AutoFireCmd}" Height="50">Turn on AutoFire</Button>
-        <Button Command="{Binding CheckForFishCmd}" Height="50">Test</Button>
-        <Button Command="{Binding ShowMaskWindowCmd}" Height="50">Show Mask</Button>
+    <StackPanel Orientation="Horizontal">
+        <StackPanel>
+            <Button Command="{Binding AutoFireCmd}" Height="50">Turn on AutoFire</Button>
+            <Button Command="{Binding CheckForFishCmd}" Height="50">Test</Button>
+            <Button Command="{Binding ShowMaskWindowCmd}" Height="50">Show Mask</Button>
+        </StackPanel>
+        <StackPanel>
+            <Button Command="{Binding IdleCmd}" Height="50" Width="80">Idle</Button>
+        </StackPanel>
     </StackPanel>
 </Window>

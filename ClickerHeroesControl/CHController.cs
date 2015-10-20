@@ -48,15 +48,47 @@ namespace ClickerHeroesControl
             }
         }
 
-        public async Task AutoFire(CancellationToken ct)
+        public async Task Idle(CancellationToken ct)
         {
             while (!ct.IsCancellationRequested)
             {
-                TargetClick(ClickerHeroesPositions.Fish1);
-                TargetClick(ClickerHeroesPositions.Fish2);
-                TargetClick(ClickerHeroesPositions.Fish3);
-                TargetClick(ClickerHeroesPositions.Fish4);
-                TargetClick(ClickerHeroesPositions.Fish5);
+                // Lilin
+                Point? p = FindClickable();
+                if (p != null)
+                {
+                    TargetClick(PositionPointer(p.Value));
+                }
+
+                KeyPlusClick(WinApiConstants.KEY_Q, ClickerHeroesPositions.PositionPointer(50, 350));
+                TargetClick(ClickerHeroesPositions.PositionPointer(190, 380));
+                TargetClick(ClickerHeroesPositions.PositionPointer(230, 380));
+                TargetClick(ClickerHeroesPositions.PositionPointer(265, 380));
+                TargetClick(ClickerHeroesPositions.PositionPointer(300, 380));
+
+                await Task.Delay(10000);
+            }
+        }
+
+        public async Task AutoFire(FireMode mode, CancellationToken ct)
+        {
+            while (!ct.IsCancellationRequested)
+            {
+                if (mode == FireMode.CollectClickables)
+                {
+                    TargetClick(ClickerHeroesPositions.Fish1);
+                    TargetClick(ClickerHeroesPositions.Fish2);
+                    TargetClick(ClickerHeroesPositions.Fish3);
+                    TargetClick(ClickerHeroesPositions.Fish4);
+                    TargetClick(ClickerHeroesPositions.Fish5);
+                }
+                else
+                {
+                    TargetClick(ClickerHeroesPositions.GenericPosition);
+                    TargetClick(ClickerHeroesPositions.GenericPosition);
+                    TargetClick(ClickerHeroesPositions.GenericPosition);
+                    TargetClick(ClickerHeroesPositions.GenericPosition);
+                    TargetClick(ClickerHeroesPositions.GenericPosition);
+                }
 
                 try
                 {
@@ -66,6 +98,136 @@ namespace ClickerHeroesControl
                 {
                 }
             }
+        }
+
+        public async Task StartAfterAscension()
+        {
+            Point? clickable = FindClickable();
+            if (clickable != null)
+            {
+                TargetClick(PositionPointer(clickable.Value));
+                await Task.Delay(7000);
+
+                TargetClick(ClickerHeroesPositions.PositionPointer(1110, 250));
+
+                KeyPlusClick(WinApiConstants.VK_CONTROL, ClickerHeroesPositions.PositionPointer(50, 291));
+                await Task.Delay(50);
+                KeyPlusClick(WinApiConstants.VK_CONTROL, ClickerHeroesPositions.PositionPointer(50, 291));
+                await Task.Delay(200);
+
+                KeyPlusClick(WinApiConstants.VK_CONTROL, ClickerHeroesPositions.PositionPointer(50, 434));
+                await Task.Delay(50);
+                KeyPlusClick(WinApiConstants.VK_CONTROL, ClickerHeroesPositions.PositionPointer(50, 434));
+                await Task.Delay(200);
+
+                KeyPlusClick(WinApiConstants.VK_CONTROL, ClickerHeroesPositions.PositionPointer(50, 550));
+                await Task.Delay(50);
+                KeyPlusClick(WinApiConstants.VK_CONTROL, ClickerHeroesPositions.PositionPointer(50, 550));
+                await Task.Delay(200);
+
+                await ScrollDown(9);
+
+                KeyPlusClick(WinApiConstants.VK_CONTROL, ClickerHeroesPositions.PositionPointer(50, 250));
+                await Task.Delay(50);
+                KeyPlusClick(WinApiConstants.VK_CONTROL, ClickerHeroesPositions.PositionPointer(50, 250));
+                await Task.Delay(200);
+
+                KeyPlusClick(WinApiConstants.VK_CONTROL, ClickerHeroesPositions.PositionPointer(50, 390));
+                await Task.Delay(50);
+                KeyPlusClick(WinApiConstants.VK_CONTROL, ClickerHeroesPositions.PositionPointer(50, 390));
+                await Task.Delay(200);
+
+                KeyPlusClick(WinApiConstants.VK_CONTROL, ClickerHeroesPositions.PositionPointer(50, 530));
+                await Task.Delay(50);
+                KeyPlusClick(WinApiConstants.VK_CONTROL, ClickerHeroesPositions.PositionPointer(50, 530));
+                await Task.Delay(200);
+
+                KeyPlusClick(WinApiConstants.VK_CONTROL, ClickerHeroesPositions.PositionPointer(50, 625));
+                await Task.Delay(50);
+                KeyPlusClick(WinApiConstants.VK_CONTROL, ClickerHeroesPositions.PositionPointer(50, 625));
+                await Task.Delay(200);
+
+                await ScrollDown(10);
+
+                KeyPlusClick(WinApiConstants.VK_CONTROL, ClickerHeroesPositions.PositionPointer(50, 225));
+                await Task.Delay(50);
+                KeyPlusClick(WinApiConstants.VK_CONTROL, ClickerHeroesPositions.PositionPointer(50, 225));
+                await Task.Delay(200);
+
+                KeyPlusClick(WinApiConstants.VK_CONTROL, ClickerHeroesPositions.PositionPointer(50, 333));
+                await Task.Delay(50);
+                KeyPlusClick(WinApiConstants.VK_CONTROL, ClickerHeroesPositions.PositionPointer(50, 333));
+                await Task.Delay(200);
+
+                KeyPlusClick(WinApiConstants.VK_CONTROL, ClickerHeroesPositions.PositionPointer(50, 450));
+                await Task.Delay(50);
+                KeyPlusClick(WinApiConstants.VK_CONTROL, ClickerHeroesPositions.PositionPointer(50, 450));
+                await Task.Delay(200);
+
+                KeyPlusClick(WinApiConstants.VK_CONTROL, ClickerHeroesPositions.PositionPointer(50, 550));
+                await Task.Delay(50);
+                KeyPlusClick(WinApiConstants.VK_CONTROL, ClickerHeroesPositions.PositionPointer(50, 550));
+                await Task.Delay(200);
+
+                await ScrollDown(8);
+
+                KeyPlusClick(WinApiConstants.VK_CONTROL, ClickerHeroesPositions.PositionPointer(50, 240));
+                await Task.Delay(50);
+                KeyPlusClick(WinApiConstants.VK_CONTROL, ClickerHeroesPositions.PositionPointer(50, 240));
+                await Task.Delay(200);
+
+                KeyPlusClick(WinApiConstants.VK_CONTROL, ClickerHeroesPositions.PositionPointer(50, 380));
+                await Task.Delay(50);
+                KeyPlusClick(WinApiConstants.VK_CONTROL, ClickerHeroesPositions.PositionPointer(50, 380));
+                await Task.Delay(200);
+
+                KeyPlusClick(WinApiConstants.VK_CONTROL, ClickerHeroesPositions.PositionPointer(50, 480));
+                await Task.Delay(50);
+                KeyPlusClick(WinApiConstants.VK_CONTROL, ClickerHeroesPositions.PositionPointer(50, 480));
+                await Task.Delay(200);
+
+                KeyPlusClick(WinApiConstants.VK_CONTROL, ClickerHeroesPositions.PositionPointer(50, 625));
+                await Task.Delay(50);
+                KeyPlusClick(WinApiConstants.VK_CONTROL, ClickerHeroesPositions.PositionPointer(50, 625));
+                await Task.Delay(200);
+
+                await ScrollDown(9);
+
+                KeyPlusClick(WinApiConstants.VK_CONTROL, ClickerHeroesPositions.PositionPointer(50, 190));
+                await Task.Delay(50);
+                KeyPlusClick(WinApiConstants.VK_CONTROL, ClickerHeroesPositions.PositionPointer(50, 190));
+                await Task.Delay(200);
+
+                KeyPlusClick(WinApiConstants.VK_CONTROL, ClickerHeroesPositions.PositionPointer(50, 280));
+                await Task.Delay(50);
+                KeyPlusClick(WinApiConstants.VK_CONTROL, ClickerHeroesPositions.PositionPointer(50, 280));
+                await Task.Delay(200);
+
+                KeyPlusClick(WinApiConstants.VK_CONTROL, ClickerHeroesPositions.PositionPointer(50, 390));
+                await Task.Delay(50);
+                KeyPlusClick(WinApiConstants.VK_CONTROL, ClickerHeroesPositions.PositionPointer(50, 390));
+                await Task.Delay(200);
+
+                KeyPlusClick(WinApiConstants.VK_CONTROL, ClickerHeroesPositions.PositionPointer(50, 500));
+                await Task.Delay(50);
+                KeyPlusClick(WinApiConstants.VK_CONTROL, ClickerHeroesPositions.PositionPointer(50, 500));
+                await Task.Delay(200);
+
+                await ScrollDown(9);
+
+                KeyPlusClick(WinApiConstants.KEY_Q, ClickerHeroesPositions.PositionPointer(50, 360));
+                TargetClick(ClickerHeroesPositions.PositionPointer(350, 550));
+            }
+        }
+
+        private async Task ScrollDown(int count)
+        {
+            for (int i = 0; i < count; i++)
+            {
+                TargetClick(ClickerHeroesPositions.ScrollDown);
+                await Task.Delay(100);
+            }
+            await Task.Delay(50);
         }
 
         private void TargetClick(IntPtr position)
@@ -114,7 +276,6 @@ namespace ClickerHeroesControl
                         int x = p.X - leftOffset;
                         int y = p.Y - topOffset;
                         IntPtr pos = (IntPtr)((y << 16) | x);
-                        TargetClick(pos);
                         return new Point(x, y);
                     }
                 }
@@ -144,6 +305,11 @@ namespace ClickerHeroesControl
             return Math.Abs(c1.R - c2.R) <= tolerance
             && Math.Abs(c1.G - c2.G) <= tolerance
             && Math.Abs(c1.B - c2.B) <= tolerance;
+        }
+
+        private IntPtr PositionPointer(Point p)
+        {
+            return (IntPtr)((p.Y << 16) | p.X);
         }
     }
 }

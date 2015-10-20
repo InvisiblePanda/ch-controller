@@ -12,6 +12,8 @@ namespace ClickerHeroesControl
 		public static readonly IntPtr Fish5 = PositionPointer(1005, 453);
 		public static readonly IntPtr FishOutOfField = PositionPointer(515, 490);
 
+        public static readonly IntPtr GenericPosition = PositionPointer(650, 250);
+
 		public static readonly IntPtr ScrollUp = PositionPointer(545, 190);
 		public static readonly IntPtr ScrollDown = PositionPointer(545, 625);
 
@@ -23,7 +25,7 @@ namespace ClickerHeroesControl
 		public static readonly IntPtr TodaysRaid = PositionPointer(150, 400);
 		public static readonly IntPtr FightAgain = PositionPointer(300, 580);
 
-		private static IntPtr PositionPointer(uint x, uint y)
+		public static IntPtr PositionPointer(int x, int y)
 		{
 			return (IntPtr)((y << 16) | x);
 		}

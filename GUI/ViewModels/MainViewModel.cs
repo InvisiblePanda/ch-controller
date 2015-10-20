@@ -1,4 +1,5 @@
-﻿using GUI.Utils;
+﻿using ClickerHeroesControl;
+using GUI.Utils;
 using GUI.Views;
 using System;
 using System.Collections.Generic;
@@ -17,7 +18,7 @@ namespace GUI.ViewModels
 {
     public class MainViewModel : ViewModelBase
     {
-        private ClickerHeroesControl.CHController controller;
+        private CHController controller;
 
         private const string ClickerHeroesWindowTitle = "Clicker Heroes";
         private CancellationTokenSource cts;
@@ -25,10 +26,11 @@ namespace GUI.ViewModels
         private CHMask chMask = null;
 
         private bool isAutoFiring = false;
+        private bool isIdling = false;
 
         public MainViewModel()
         {
-            controller = new ClickerHeroesControl.CHController();
+            controller = new CHController();
         }
 
         public ICommand AutoFireCmd
@@ -46,7 +48,7 @@ namespace GUI.ViewModels
                     {
                         isAutoFiring = true;
                         cts = new CancellationTokenSource();
-                        await controller.AutoFire(cts.Token);
+                        await controller.AutoFire(FireMode.DoNotCollectClickables, cts.Token);
                     }
                 });
             }
@@ -56,19 +58,41 @@ namespace GUI.ViewModels
         {
             get
             {
-                return new RelayCommand(_ =>
+                return new RelayCommand(async _ =>
                 {
-                    var p = controller.FindClickable();
-                    if (chMask != null && p != null)
+                    await controller.StartAfterAscension();
+                    //var p = controller.FindClickable();
+                    if (chMask != null)
                     {
                         System.Windows.Shapes.Rectangle rect = new System.Windows.Shapes.Rectangle();
                         rect.Stroke = new SolidColorBrush(Colors.Black);
                         rect.Fill = new SolidColorBrush(Colors.Red);
-                        rect.Width = 1;
-                        rect.Height = 1;
-                        Canvas.SetLeft(rect, p.Value.X);
-                        Canvas.SetTop(rect, p.Value.Y);
+                        rect.Width = 2;
+                        rect.Height = 2;
+                        Canvas.SetLeft(rect, 350);
+                        Canvas.SetTop(rect, 575);
                         chMask.canvas.Children.Add(rect);
+                    }
+                });
+            }
+        }
+
+        public ICommand IdleCmd
+        {
+            get
+            {
+                return new RelayCommand(async _ =>
+                {
+                    if (isIdling)
+                    {
+                        isIdling = false;
+                        cts.Cancel();
+                    }
+                    else
+                    {
+                        isIdling = true;
+                        cts = new CancellationTokenSource();
+                        await controller.Idle(cts.Token);
                     }
                 });
             }
