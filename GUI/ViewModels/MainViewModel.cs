@@ -19,59 +19,69 @@ namespace GUI.ViewModels
     public class MainViewModel : ViewModelBase
     {
         private CHController controller;
-
-        private const string ClickerHeroesWindowTitle = "Clicker Heroes";
-        private CancellationTokenSource cts;
-
-        private CHMask chMask = null;
-
-        private bool isAutoFiring = false;
-        private bool isIdling = false;
+        private Task autoFire;
+        private Task idleMode;
+        private CancellationTokenSource autoFireCancelSource;
+        private CancellationTokenSource idleCancellationSource;
+        private bool autoAscend = false;
+        private bool showMask = false;
+        private int idleRunDuration = 30;
+        private int noCollectingTime = 5;
 
         public MainViewModel()
         {
             controller = new CHController();
         }
 
+        #region Properties
+
+        public string IdleCaption
+        {
+            get { return idleMode != null ? "Stop Idle Mode" : "Start Idle Mode"; }
+        }
+
+        public string AutoFireCaption
+        {
+            get { return autoFire != null ? "Stop AutoFire" : "AutoFire"; }
+        }
+
+        public bool AutoAscend
+        {
+            get { return autoAscend; }
+            set { Set(ref autoAscend, value, nameof(AutoAscend)); }
+        }
+
+        public bool ShowMask
+        {
+            get { return showMask; }
+            set { Set(ref showMask, value, nameof(ShowMask)); }
+        }
+
+        public int IdleRunDuration
+        {
+            get { return idleRunDuration; }
+            set { Set(ref idleRunDuration, value, nameof(IdleRunDuration)); }
+        }
+
+        public int NoCollectingTime
+        {
+            get { return noCollectingTime; }
+            set { Set(ref noCollectingTime, value, nameof(NoCollectingTime)); }
+        }
+
         public ICommand AutoFireCmd
         {
             get
             {
-                return new RelayCommand(async _ =>
+                return new RelayCommand(_ =>
                 {
-                    if (isAutoFiring)
+                    if (autoFire != null)
                     {
-                        isAutoFiring = false;
-                        cts.Cancel();
+                        TurnOffAutoFire();
                     }
                     else
                     {
-                        isAutoFiring = true;
-                        cts = new CancellationTokenSource();
-                        await controller.AutoFire(FireMode.DoNotCollectClickables, cts.Token);
-                    }
-                });
-            }
-        }
-
-        public ICommand CheckForFishCmd
-        {
-            get
-            {
-                return new RelayCommand(async _ =>
-                {
-                    await controller.StartAfterAscension();
-                    //var p = controller.FindClickable();
-                    if (chMask != null)
-                    {
-                        System.Windows.Shapes.Rectangle rect = new System.Windows.Shapes.Rectangle();
-                        rect.Stroke = new SolidColorBrush(Colors.Black);
-                        rect.Fill = new SolidColorBrush(Colors.Red);
-                        rect.Width = 2;
-                        rect.Height = 2;
-                        Canvas.SetLeft(rect, 350);
-                        Canvas.SetTop(rect, 575);
-                        chMask.canvas.Children.Add(rect);
+                        AutoFire();
                     }
                 });
             }
@@ -81,46 +91,67 @@ namespace GUI.ViewModels
         {
             get
             {
-                return new RelayCommand(async _ =>
+                return new RelayCommand(_ =>
                 {
-                    if (isIdling)
+                    if (idleMode != null)
                     {
-                        isIdling = false;
-                        cts.Cancel();
+                        TurnOffIdleMode();
                     }
                     else
                     {
-                        isIdling = true;
-                        cts = new CancellationTokenSource();
-                        await controller.Idle(cts.Token);
+                        StartIdleMode();
                     }
                 });
             }
         }
 
-        public ICommand ShowMaskWindowCmd
+        public ICommand AscendCmd
         {
             get
             {
                 return new RelayCommand(_ =>
                 {
-                    if (chMask == null)
-                    {
-                        chMask = new CHMask();
-                        var targetSize = controller.CHClientRectangle;
-                        chMask.Width = targetSize.Width;
-                        chMask.Height = targetSize.Height;
-                        chMask.Left = targetSize.Left;
-                        chMask.Top = targetSize.Top;
-                        chMask.Show();
-                    }
-                    else
-                    {
-                        chMask.Close();
-                        chMask = null;
-                    }
+                    Ascend();
                 });
             }
+        }
+
+        #endregion
+
+        private async void Ascend()
+        {
+            await controller.Ascend();
+            StartIdleMode();
+            OnPropertyChanged(nameof(IdleCaption));
+        }
+
+        private async void StartIdleMode()
+        {
+            idleCancellationSource = new CancellationTokenSource();
+            await controller.StartAfterAscension();
+            idleMode = controller.Idle(idleCancellationSource.Token);
+            OnPropertyChanged(nameof(IdleCaption));
+        }
+
+        private void TurnOffIdleMode()
+        {
+            idleCancellationSource.Cancel();
+            idleMode = null;
+            OnPropertyChanged(nameof(IdleCaption));
+        }
+
+        private void AutoFire()
+        {
+            autoFireCancelSource = new CancellationTokenSource();
+            autoFire = controller.AutoFire(autoFireCancelSource.Token);
+            OnPropertyChanged(nameof(AutoFireCaption));
+        }
+
+        private void TurnOffAutoFire()
+        {
+            autoFireCancelSource.Cancel();
+            autoFire = null;
+            OnPropertyChanged(nameof(AutoFireCaption));
         }
     }
 }

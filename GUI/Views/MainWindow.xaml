@@ -5,15 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GUI.Views"
         mc:Ignorable="d"
-        Title="MainWindow" Height="202" Width="200">
-    <StackPanel Orientation="Horizontal">
-        <StackPanel>
-            <Button Command="{Binding AutoFireCmd}" Height="50">Turn on AutoFire</Button>
-            <Button Command="{Binding CheckForFishCmd}" Height="50">Test</Button>
-            <Button Command="{Binding ShowMaskWindowCmd}" Height="50">Show Mask</Button>
-        </StackPanel>
-        <StackPanel>
-            <Button Command="{Binding IdleCmd}" Height="50" Width="80">Idle</Button>
-        </StackPanel>
+        Title="MainWindow" Height="200" Width="100">
+    <StackPanel>
+        <Button Content="{Binding AutoFireCaption}" Height="50" Command="{Binding AutoFireCmd}"/>
+        <Button Content="{Binding IdleCaption}" Height="50" Command="{Binding IdleCmd}"/>
+        <Button Content="Ascend" Height="50" Command="{Binding AscendCmd}"/>
     </StackPanel>
 </Window>

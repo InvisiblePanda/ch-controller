@@ -52,7 +52,6 @@ namespace ClickerHeroesControl
         {
             while (!ct.IsCancellationRequested)
             {
-                // Lilin
                 Point? p = FindClickable();
                 if (p != null)
                 {
@@ -69,26 +68,15 @@ namespace ClickerHeroesControl
             }
         }
 
-        public async Task AutoFire(FireMode mode, CancellationToken ct)
+        public async Task AutoFire(CancellationToken ct)
         {
             while (!ct.IsCancellationRequested)
             {
-                if (mode == FireMode.CollectClickables)
-                {
-                    TargetClick(ClickerHeroesPositions.Fish1);
-                    TargetClick(ClickerHeroesPositions.Fish2);
-                    TargetClick(ClickerHeroesPositions.Fish3);
-                    TargetClick(ClickerHeroesPositions.Fish4);
-                    TargetClick(ClickerHeroesPositions.Fish5);
-                }
-                else
-                {
-                    TargetClick(ClickerHeroesPositions.GenericPosition);
-                    TargetClick(ClickerHeroesPositions.GenericPosition);
-                    TargetClick(ClickerHeroesPositions.GenericPosition);
-                    TargetClick(ClickerHeroesPositions.GenericPosition);
-                    TargetClick(ClickerHeroesPositions.GenericPosition);
-                }
+                TargetClick(ClickerHeroesPositions.Fish1);
+                TargetClick(ClickerHeroesPositions.Fish2);
+                TargetClick(ClickerHeroesPositions.Fish3);
+                TargetClick(ClickerHeroesPositions.Fish4);
+                TargetClick(ClickerHeroesPositions.Fish5);
 
                 try
                 {
@@ -230,6 +218,16 @@ namespace ClickerHeroesControl
             await Task.Delay(50);
         }
 
+        private async Task ScrollUp(int count)
+        {
+            for (int i=0;i< count;i++)
+            {
+                TargetClick(ClickerHeroesPositions.ScrollUp);
+                await Task.Delay(50);
+            }
+            await Task.Delay(50);
+        }
+
         private void TargetClick(IntPtr position)
         {
             WinApi.PostMessage(targetHandle, WinApiConstants.WM_LBUTTONDOWN, (IntPtr)1, position);
@@ -241,6 +239,17 @@ namespace ClickerHeroesControl
             WinApi.PostMessage(targetHandle, WinApiConstants.WM_KEYDOWN, (IntPtr)keyCode, IntPtr.Zero);
             TargetClick(position);
             WinApi.PostMessage(targetHandle, WinApiConstants.WM_KEYUP, (IntPtr)keyCode, IntPtr.Zero);
+        }
+
+        public async Task Ascend()
+        {
+            await ScrollUp(50);
+            await ScrollDown(22);
+            await Task.Delay(100);
+            TargetClick(ClickerHeroesPositions.PositionPointer(305, 545));
+            await Task.Delay(200);
+            TargetClick(ClickerHeroesPositions.PositionPointer(490, 420));
+            await Task.Delay(200);
         }
 
         public Point? FindClickable()
