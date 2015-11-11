@@ -1,17 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ClickerHeroesControl.WindowsApi
 {
     public static class WinApi
     {
-        #region DllImports
-
         [DllImport("user32.dll")]
         public static extern bool GetWindowRect(IntPtr hWnd, out RECT lpRect);
 
@@ -30,8 +24,6 @@ namespace ClickerHeroesControl.WindowsApi
         [DllImport("user32.dll", EntryPoint = "PostMessageA", SetLastError = true)]
         public static extern bool PostMessage(IntPtr hWnd, uint msg, IntPtr wParam, IntPtr lParam);
 
-        #endregion
-
         [StructLayout(LayoutKind.Sequential)]
         public struct POINT
         {
@@ -40,18 +32,21 @@ namespace ClickerHeroesControl.WindowsApi
 
             public POINT(int x, int y)
             {
-                this.X = x;
-                this.Y = y;
+                X = x;
+                Y = y;
             }
 
-            public POINT(System.Drawing.Point pt) : this(pt.X, pt.Y) { }
-
-            public static implicit operator System.Drawing.Point(POINT p)
+            public POINT(Point pt)
+                : this(pt.X, pt.Y)
             {
-                return new System.Drawing.Point(p.X, p.Y);
             }
 
-            public static implicit operator POINT(System.Drawing.Point p)
+            public static implicit operator Point(POINT p)
+            {
+                return new Point(p.X, p.Y);
+            }
+
+            public static implicit operator POINT(Point p)
             {
                 return new POINT(p.X, p.Y);
             }
@@ -60,101 +55,115 @@ namespace ClickerHeroesControl.WindowsApi
         [StructLayout(LayoutKind.Sequential)]
         public struct RECT
         {
-            private int _Left;
-            private int _Top;
-            private int _Right;
-            private int _Bottom;
+            private int left;
+            private int top;
+            private int right;
+            private int bottom;
 
-            public RECT(RECT Rectangle) : this(Rectangle.Left, Rectangle.Top, Rectangle.Right, Rectangle.Bottom)
+            public RECT(RECT rect)
+                : this(rect.Left, rect.Top, rect.Right, rect.Bottom)
             {
             }
-            public RECT(int Left, int Top, int Right, int Bottom)
+
+            public RECT(int left, int top, int right, int bottom)
             {
-                _Left = Left;
-                _Top = Top;
-                _Right = Right;
-                _Bottom = Bottom;
+                this.left = left;
+                this.top = top;
+                this.right = right;
+                this.bottom = bottom;
             }
 
             public int X
             {
-                get { return _Left; }
-                set { _Left = value; }
+                get { return left; }
+                set { left = value; }
             }
+
             public int Y
             {
-                get { return _Top; }
-                set { _Top = value; }
+                get { return top; }
+                set { top = value; }
             }
+
             public int Left
             {
-                get { return _Left; }
-                set { _Left = value; }
+                get { return left; }
+                set { left = value; }
             }
+
             public int Top
             {
-                get { return _Top; }
-                set { _Top = value; }
+                get { return top; }
+                set { top = value; }
             }
+
             public int Right
             {
-                get { return _Right; }
-                set { _Right = value; }
+                get { return right; }
+                set { right = value; }
             }
+
             public int Bottom
             {
-                get { return _Bottom; }
-                set { _Bottom = value; }
+                get { return bottom; }
+                set { bottom = value; }
             }
+
             public int Height
             {
-                get { return _Bottom - _Top; }
-                set { _Bottom = value + _Top; }
+                get { return bottom - top; }
+                set { bottom = value + top; }
             }
+
             public int Width
             {
-                get { return _Right - _Left; }
-                set { _Right = value + _Left; }
+                get { return right - left; }
+                set { right = value + left; }
             }
+
             public Point Location
             {
                 get { return new Point(Left, Top); }
                 set
                 {
-                    _Left = value.X;
-                    _Top = value.Y;
+                    left = value.X;
+                    top = value.Y;
                 }
             }
+
             public Size Size
             {
                 get { return new Size(Width, Height); }
                 set
                 {
-                    _Right = value.Width + _Left;
-                    _Bottom = value.Height + _Top;
+                    right = value.Width + left;
+                    bottom = value.Height + top;
                 }
             }
 
-            public static implicit operator Rectangle(RECT Rectangle)
+            public static implicit operator Rectangle(RECT rect)
             {
-                return new Rectangle(Rectangle.Left, Rectangle.Top, Rectangle.Width, Rectangle.Height);
+                return new Rectangle(rect.Left, rect.Top, rect.Width, rect.Height);
             }
-            public static implicit operator RECT(Rectangle Rectangle)
+
+            public static implicit operator RECT(Rectangle rect)
             {
-                return new RECT(Rectangle.Left, Rectangle.Top, Rectangle.Right, Rectangle.Bottom);
+                return new RECT(rect.Left, rect.Top, rect.Right, rect.Bottom);
             }
-            public static bool operator ==(RECT Rectangle1, RECT Rectangle2)
+
+            public static bool operator ==(RECT rect1, RECT rect2)
             {
-                return Rectangle1.Equals(Rectangle2);
+                return rect1.Equals(rect2);
             }
-            public static bool operator !=(RECT Rectangle1, RECT Rectangle2)
+
+            public static bool operator !=(RECT rect1, RECT rect2)
             {
-                return !Rectangle1.Equals(Rectangle2);
+                return !rect1.Equals(rect2);
             }
 
             public override string ToString()
             {
-                return "{Left: " + _Left + "; " + "Top: " + _Top + "; Right: " + _Right + "; Bottom: " + _Bottom + "}";
+                return "{Left: " + left + "; " + "Top: " + top + "; Right: " + right + "; Bottom: " + bottom + "}";
             }
 
             public override int GetHashCode()
@@ -162,20 +171,20 @@ namespace ClickerHeroesControl.WindowsApi
                 return ToString().GetHashCode();
             }
 
-            public bool Equals(RECT Rectangle)
+            public bool Equals(RECT other)
             {
-                return Rectangle.Left == _Left && Rectangle.Top == _Top && Rectangle.Right == _Right && Rectangle.Bottom == _Bottom;
+                return other.Left == left && other.Top == top && other.Right == right && other.Bottom == bottom;
             }
 
-            public override bool Equals(object Object)
+            public override bool Equals(object other)
             {
-                if (Object is RECT)
+                if (other is RECT)
                 {
-                    return Equals((RECT)Object);
+                    return Equals((RECT)other);
                 }
-                else if (Object is Rectangle)
+                else if (other is Rectangle)
                 {
-                    return Equals(new RECT((Rectangle)Object));
+                    return Equals(new RECT((Rectangle)other));
                 }
 
                 return false;

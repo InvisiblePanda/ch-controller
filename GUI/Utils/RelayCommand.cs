@@ -40,8 +40,6 @@ namespace GUI.Utils
 			this.canExecute = canExecute;
 		}
 
-		#region ICommand implementation
-
 		/// <summary>
 		/// Raised whenever the executability of the underlying
 		/// command changes.
@@ -70,7 +68,5 @@ namespace GUI.Utils
 		{
 			action(parameter);
 		}
-
-		#endregion
 	}
 }

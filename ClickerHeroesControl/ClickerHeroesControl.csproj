@@ -45,16 +45,21 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CHController.cs" />
+    <Compile Include="GameControl\CHController.cs" />
     <Compile Include="CHSettings.cs" />
     <Compile Include="ClickerHeroesPositions.cs" />
+    <Compile Include="GameControl\ClickerHeroesSteamController.cs" />
+    <Compile Include="GameControl\ICHController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TargetWindowNotFoundException.cs" />
+    <Compile Include="Exceptions\TargetWindowNotFoundException.cs" />
     <Compile Include="WindowsApi\WinApi.cs" />
     <Compile Include="WindowsApi\WinApiConstants.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Pilot\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,4 +1,5 @@
 ﻿using ClickerHeroesControl;
+using ClickerHeroesControl.GameControl;
 using GUI.Utils;
 using GUI.Views;
 using System;
@@ -32,8 +33,6 @@ namespace GUI.ViewModels
         {
             controller = new CHController();
         }
-
-        #region Properties
 
         public string IdleCaption
         {
@@ -116,19 +115,17 @@ namespace GUI.ViewModels
             }
         }
 
-        #endregion
-
         private async void Ascend()
         {
             await controller.Ascend();
+            await controller.StartAfterAscension();
             StartIdleMode();
             OnPropertyChanged(nameof(IdleCaption));
         }
 
-        private async void StartIdleMode()
+        private void StartIdleMode()
         {
             idleCancellationSource = new CancellationTokenSource();
-            await controller.StartAfterAscension();
             idleMode = controller.Idle(idleCancellationSource.Token);
             OnPropertyChanged(nameof(IdleCaption));
         }

@@ -7,8 +7,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using ClickerHeroesControl.WindowsApi;
 using System.Drawing.Imaging;
+using ClickerHeroesControl.Exceptions;
 
-namespace ClickerHeroesControl
+namespace ClickerHeroesControl.GameControl
 {
     public sealed class CHController
     {
@@ -220,7 +221,7 @@ namespace ClickerHeroesControl
 
         private async Task ScrollUp(int count)
         {
-            for (int i=0;i< count;i++)
+            for (int i = 0; i < count; i++)
             {
                 TargetClick(ClickerHeroesPositions.ScrollUp);
                 await Task.Delay(50);

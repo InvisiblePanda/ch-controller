@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ClickerHeroesControl
+namespace ClickerHeroesControl.Exceptions
 {
     /// <summary>
     /// The exception that is thrown when the target window (handle) cannot be found.
