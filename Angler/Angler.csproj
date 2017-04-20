@@ -79,7 +79,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="fish.ico" />
+    <EmbeddedResource Include="fish.ico" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ClickerHeroesControl\ClickerHeroesControl.csproj">
