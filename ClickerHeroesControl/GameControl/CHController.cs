@@ -19,6 +19,26 @@ namespace ClickerHeroesControl.GameControl
         private readonly int leftOffset;
         private readonly int topOffset;
 
+        private static readonly IReadOnlyList<Point> clickablePositions = new List<Point>
+        {
+            new Point(753, 425),
+            new Point(766, 373),
+            new Point(1011, 446),
+            new Point(531, 481),
+            new Point(1059, 436),
+            new Point(879, 505)
+        };
+
+        private static readonly IReadOnlyList<Color> clickableColors = new List<Color>
+        {
+            Color.FromArgb(0xda, 0x4a, 0x00),
+            Color.FromArgb(0xd9, 0x41, 0x03),
+            Color.FromArgb(0xdc, 0x46, 0x08),
+            Color.FromArgb(0xdc, 0x43, 0x02),
+            Color.FromArgb(0xd3, 0x3d, 0x01),
+            Color.FromArgb(0xc8, 0x4b, 0x16)
+        };
+
         public CHController()
         {
             targetHandle = WinApi.FindWindow(null, ClickerHeroesWindowTitle);
@@ -46,6 +66,15 @@ namespace ClickerHeroesControl.GameControl
 
                 Rectangle rect = new Rectangle(windowRect.X + leftOffset, windowRect.Y + topOffset, clientRect.Width, clientRect.Height);
                 return rect;
+            }
+        }
+
+        public void CollectRubies()
+        {
+            Point? p = FindClickable();
+            if (p != null)
+            {
+                TargetClick(PositionPointer(p.Value));
             }
         }
 
@@ -255,28 +284,9 @@ namespace ClickerHeroesControl.GameControl
 
         public Point? FindClickable()
         {
-            List<Point> clickablePositions = new List<Point>
-            {
-                new Point(753, 425),
-                new Point(766, 373),
-                new Point(1011, 446),
-                new Point(531, 481),
-                new Point(1059, 436),
-                new Point(879, 505)
-            };
-            List<Color> clickableColors = new List<Color>
-            {
-                Color.FromArgb(0xda, 0x4a, 0x00),
-                Color.FromArgb(0xd9, 0x41, 0x03),
-                Color.FromArgb(0xdc, 0x46, 0x08),
-                Color.FromArgb(0xdc, 0x43, 0x02),
-                Color.FromArgb(0xd3, 0x3d, 0x01),
-                Color.FromArgb(0xc8, 0x4b, 0x16)
-            };
-
             using (Bitmap bmp = TakeScreenshot())
             {
-                int tolerance = 40;
+                const int tolerance = 40;
                 for (int i = 0; i < clickablePositions.Count; i++)
                 {
                     Point p = clickablePositions[i];
